@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Auth from './auth';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { TopBar } from './components/top-bar.component';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { LoginPage } from './pages/login.page';
+import { LandingPage } from './pages/landing.page';
+import { PostLoginPage } from './pages/post-login.page';
 
-function App() {
+export default function ClippedDrawer() {
+  const auth = Auth.instance;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <CssBaseline />
+      <Router>
+        <TopBar></TopBar>
+        <Switch>
+          <Route exact path="/" component={auth.isAuthenticated ? PostLoginPage : LandingPage} />
+          <Route path="/login" component={LoginPage} />
+        </Switch>
+      </Router>
+    </React.Fragment>
   );
 }
-
-export default App;
