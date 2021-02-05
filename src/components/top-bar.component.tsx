@@ -2,7 +2,7 @@ import React from 'react';
 import Auth from '../auth';
 import logo from '../assets/images/logo.png';
 import AppBar from '@material-ui/core/AppBar';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -42,8 +42,14 @@ export const TopBar: React.FC = () => {
 const RightSide: React.FC = () => {
   const auth = Auth.instance;
   const location = useLocation();
+  const history = useHistory();
   let showLogin = !auth.isAuthenticated && location.pathname !== '/login'
   let showLogout = auth.isAuthenticated;  
+
+  const handleLogout = () => {
+    auth.logout();
+    history.push('/');
+  }
 
   if (showLogin) {
     return (
@@ -51,7 +57,7 @@ const RightSide: React.FC = () => {
     )
   } else if (showLogout) {
     return (
-      <Button variant="contained" color="secondary" disableElevation>Logout</Button>
+      <Button variant="contained" color="secondary" disableElevation onClick={handleLogout}>Logout</Button>
     )
   } else {
     return (

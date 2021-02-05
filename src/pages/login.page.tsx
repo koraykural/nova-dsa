@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Auth from '../auth';
 import { Footer } from '../components/footer.component';
+import { Redirect, useHistory } from "react-router-dom";
 
 interface InputState {
   value: string,
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const LoginPage: React.FC = () => {
   const auth = Auth.instance;
   const classes = useStyles();
+  const history = useHistory();
   
   const [email, setEmail] = useState<InputState>({
     error: null,
@@ -54,51 +56,63 @@ export const LoginPage: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    if (email.value === "") setEmail({ ...email, error: 'Email is required' });
+    if (password.value === "") setPassword({ ...password, error: 'Password is required' });
+
     const errorMessage = auth.login(email.value, password.value);
+    
     if (errorMessage === 'User not found') {
       setEmail({
         ...email,
         error: errorMessage
       });
-    }
-    if (errorMessage === "Password is incorrect") {
+    } else if (errorMessage === "Password is incorrect") {
       setPassword({
         ...password,
         error: errorMessage
       });
+    } else {
+      history.push("/d");
     }
   }
 
-  return (
-    <React.Fragment>
-      <div className={classes.ghostHeader}></div>
-      <Container className={classes.container} fixed>
+  if (auth.isAuthenticated) {
+    return (
+      <Redirect to="/d"></Redirect>
+    )
+  } else {
+    return (
+      <React.Fragment>
         <div className={classes.ghostHeader}></div>
-        <Card className={classes.card}>
-          <h1 className={classes.title}>Login</h1>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              fullWidth margin="dense"
-              type="email" name="email"
-              label="Email" error={email.error ? true : false}
-              helperText={email.error ? email.error : ''}
-              value={email.value} onChange={(e) => { setEmail({ error: null, value: e.target.value }) }}
-              required />
-            <TextField
-              fullWidth margin="dense"
-              type="password" name="password"
-              placeholder="************"
-              label="Password" error={password.error ? true : false}
-              helperText={password.error ? password.error : ''}
-              value={password.value} onChange={(e) => { setPassword({ error: null, value: e.target.value }) }}
-              required />
-            <Button className={classes.submit} type="submit" variant="contained" color="primary"  size="large">
-              Login
-            </Button>
-          </form>
-        </Card>
-      </Container>
-      <Footer></Footer>
-    </React.Fragment>
-  );
+        <Container className={classes.container} fixed>
+          <div className={classes.ghostHeader}></div>
+          <Card className={classes.card}>
+            <h1 className={classes.title}>Login</h1>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                fullWidth margin="dense"
+                type="email" name="email"
+                label="Email" error={email.error ? true : false}
+                helperText={email.error ? email.error : ''}
+                value={email.value} onChange={(e) => { setEmail({ error: null, value: e.target.value }) }}
+                required />
+              <TextField
+                fullWidth margin="dense"
+                type="password" name="password"
+                placeholder="************"
+                label="Password" error={password.error ? true : false}
+                helperText={password.error ? password.error : ''}
+                value={password.value} onChange={(e) => { setPassword({ error: null, value: e.target.value }) }}
+                required />
+              <Button className={classes.submit} type="submit" variant="contained" color="primary"  size="large">
+                Login
+              </Button>
+            </form>
+          </Card>
+        </Container>
+        <Footer></Footer>
+      </React.Fragment>
+    );
+  }
+
 }
