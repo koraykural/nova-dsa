@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import { TextareaAutosize, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 interface InputState {
   value: string;

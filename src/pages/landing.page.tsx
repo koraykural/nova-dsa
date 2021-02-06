@@ -3,7 +3,6 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography'
 import bannerImage from '../assets/images/banner.jpg';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-// import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Security from '@material-ui/icons/Security';
 import Speed from '@material-ui/icons/Speed';
 import SettingsPower from '@material-ui/icons/SettingsPower';
@@ -92,7 +91,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export const LandingPage: React.FC = () => {
   const auth = Auth.instance;
   const classes = useStyles();
-  // const matches = useMediaQuery('(min-width:900px)');  
 
   if (auth.isAuthenticated) {
     return (
