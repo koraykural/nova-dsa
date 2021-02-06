@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { TopBar } from '../components/top-bar.component';
 import { CustomDrawer } from '../components/drawer.component';
 import { BrowserRouter as Router, Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
@@ -32,7 +31,12 @@ const useStyles = makeStyles((theme: Theme) =>
     content: {
       flexGrow: 1,
       height: '100%',
-      padding: theme.spacing(3),
+      [theme.breakpoints.down('sm')]: {
+        padding: '16px',
+      },
+      [theme.breakpoints.up('sm')]: {
+        padding: '24px',
+      },
       paddingTop: '84px',
     },
   }),

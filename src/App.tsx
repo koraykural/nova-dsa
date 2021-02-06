@@ -6,7 +6,7 @@ import { LoginPage } from './pages/login.page';
 import { LandingPage } from './pages/landing.page';
 import { PostLoginPage } from './pages/post-login.page';
 
-export default () => {
+const App = () => {
   return (
     <React.Fragment>
       <CssBaseline />
@@ -21,3 +21,5 @@ export default () => {
     </React.Fragment>
   );
 }
+
+export default App;

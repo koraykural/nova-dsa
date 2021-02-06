@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { TextareaAutosize, Typography } from "@material-ui/core";
 
 interface InputState {
   value: string;
@@ -47,7 +47,7 @@ export const ContactForm: React.FC = () => {
 
   return (
     <form className={classes.container} onSubmit={handleSubmit}>
-      <Typography variant="h5">Send a Message to Us</Typography>
+      <Typography variant="h5">Send Us a Message</Typography>
       <TextField
         variant="outlined"
         fullWidth
@@ -70,21 +70,26 @@ export const ContactForm: React.FC = () => {
         type="email"
         name="email"
         label="Your Email"
+        
         error={email.error ? true : false}
-        helperText={email.error ? email.error : ""}
+        helperText={email.error ? email.error : "We will not send you any unnecessary emails."}
         value={email.value}
         onChange={(e) => {
           setEmail({ error: null, value: e.target.value });
         }}
         required
-      />      
+      />     
       <TextField
         variant="outlined"
         fullWidth
+        required
         margin="dense"
         type="text"
         name="message"
         label="Message"
+        multiline
+        rows={4}
+        rowsMax={6}
         error={message.error ? true : false}
         helperText={message.error ? message.error : ""}
         value={message.value}
